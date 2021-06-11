@@ -5,11 +5,13 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace AutomationFrameWorkWeb.PageObject
 {
   public class WebAbstractPage
     {
+        SelectElement select ;
         By by;
         Action action;
         IWebElement element;
@@ -54,7 +56,7 @@ namespace AutomationFrameWorkWeb.PageObject
         #endregion
 
         #region Get Text Alert
-        //      public void getTextAlert() { driver.SwitchTo().Alert().GetType(); }
+          //   public void getTextAlert() { driver.SwitchTo().Alert().Text; }
         #endregion
 
         #region Click to element
@@ -75,6 +77,49 @@ namespace AutomationFrameWorkWeb.PageObject
         }
         #endregion
 
+        #region Clear text in element
+        public void clearTextInElement(string type, string locator)
+        {
+            element = driver.FindElement(elementAttribute(type, locator));
+            waitToElementPresent(type, locator);
+            element.Clear();
+
+        }
+        #endregion
+
+        #region Select in dropdown
+        public void selectInDropDown(string type, string locator, string valueItem)
+        {
+            element = driver.FindElement(elementAttribute(type, locator));
+            select = new SelectElement(element);
+            select.SelectByValue(valueItem);
+        }
+        #endregion
+
+        #region getItemInDropDown
+        public string getItemInDropDown(string type, string locator)
+        {
+            element = driver.FindElement(elementAttribute(type, locator));
+            select = new SelectElement(element);
+            return select.SelectedOption.Text;
+        }
+        #endregion
+
+        #region Sleep in seconds
+        public void sleepInSecond(int numberInSecond)
+        {
+            try
+            {
+                Thread.Sleep(numberInSecond * 1000);
+            }
+            catch (ThreadInterruptedException e)
+            {
+                Console.WriteLine(System.Environment.StackTrace);
+            }
+        }
+        #endregion
+
+
         #region Wait to Element present
         public void waitToElementPresent(string type, string locator)
         {
@@ -85,7 +130,6 @@ namespace AutomationFrameWorkWeb.PageObject
 
         By elementAttribute(string type,string locator)
         {
-
             switch (type.ToUpper())
             {
                 case "CSS":
