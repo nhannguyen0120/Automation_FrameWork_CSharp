@@ -408,12 +408,17 @@
             {
                 case "CHROME":
                     return new ChromeDriver();
-
+                    break;
                 case "FIREFOX":
                     return new FirefoxDriver();
+                    break;
+                case "IE":
+                    return new ChromeDriver();
+                    break;
 
                 default:
                     return new ChromeDriver();
+
 
             }
         }
